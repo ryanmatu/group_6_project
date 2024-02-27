@@ -42,7 +42,7 @@ public class ScientificCalculator extends JFrame {
                 "x!", "sin", "cos", "tan",
                 "e", "EE", "1", "2", "3", "+",
                 "Rad", "sinh", "cosh", "tanh",
-                "π", "Rand", "0", "←", "="
+                "π", "Rand", "←","0" , "."
         };
 
         for (String label : buttonLabels) {
@@ -70,6 +70,9 @@ public class ScientificCalculator extends JFrame {
                 case "=":
                     evaluateExpression();
                     break;
+                case ".":
+                    display.setText(display.getText()+".");
+                    break;
                 case "C":
                     display.setText("");
                     break;
@@ -77,37 +80,60 @@ public class ScientificCalculator extends JFrame {
                     negateNumber();
                     break;
                 case "√":
-                    applyUnaryOperation(Math::sqrt);
+                    
+                    double root = Math.sqrt(Double.parseDouble(display.getText()));
+                    display.setText(Double.toString(root));
                     break;
+                 case "∛":
+                    double cubeRoot = Math.cbrt(Double.parseDouble(display.getText()));
+                    display.setText(Double.toString(cubeRoot));
+                        break;
                 case "x^2":
-                    applyUnaryOperation(x -> x * x);
+                double squareValue = Double.parseDouble(display.getText());
+                    display.setText(Double.toString(squareValue*squareValue)); 
                     break;
+
                 case "x^3":
-                    applyUnaryOperation(x -> x * x * x);
+                double cubicValue = Double.parseDouble(display.getText());
+                display.setText(Double.toString(cubicValue*cubicValue*cubicValue));
                     break;
+
                 case "x^y":
-                    display.setText(display.getText() + "^");
+                double x = Double.parseDouble(display.getText());System.out.println(x);
+
+                double y = Double.parseDouble(display.getText());System.out.println(y);
+                double powerResult = Math.pow(x,y);
+                display.setText(Double.toString(powerResult));
                     break;
+
                 case "e^x":
-                    applyUnaryOperation(Math::exp);
+                double exponent = Double.parseDouble(display.getText()) ;
+                display.setText(Double.toString(Math.pow(Math.E,exponent)));
                     break;
+
                 case "10^x":
-                    applyUnaryOperation(x -> Math.pow(10, x));
+                double tenthPow = Double.parseDouble(display.getText()) ;
+                display.setText(Double.toString(Math.pow(10,tenthPow)));
                     break;
                 case "1/x":
-                    applyUnaryOperation(x -> 1 / x);
-                    break;
-                case "∛":
-                    applyUnaryOperation(x -> Math.cbrt(x));
+                double inverse = 1/(Double.parseDouble(display.getText())) ;
+                display.setText(Double.toString(inverse));
                     break;
                 case "y√x":
                     display.setText(display.getText() + "√");
+                    double number = Double.parseDouble(display.getText());
+                    double ythroot = Math.pow(number ,(1.0/10));
+                display.setText(Double.toString(ythroot));
                     break;
+
                 case "ln":
-                    applyUnaryOperation(Math::log);
+                double lnValue =Math.log(Double.parseDouble(display.getText()));
+                display.setText(Double.toString(lnValue));
                     break;
+
                 case "log":
-                    applyUnaryOperation(Math::log10);
+                double logValue =Math.log10(Double.parseDouble(display.getText()));
+                display.setText(Double.toString(logValue));
                     break;
                 case "x!":
                     calculateFactorial();
@@ -128,19 +154,25 @@ public class ScientificCalculator extends JFrame {
                     display.setText(display.getText() + "E");
                     break;
                 case "Rad":
-                    applyUnaryOperation(Math::toRadians);
+                    double rand = Math.toRadians(Double.parseDouble(display.getText()));
+                    display.setText(Double.toString(rand));
                     break;
                 case "sinh":
-                    applyUnaryOperation(Math::sinh);
+                double sinInverse = Math.sinh(Double.parseDouble(display.getText()));
+                display.setText(Double.toString(sinInverse));
                     break;
                 case "cosh":
-                    applyUnaryOperation(Math::cosh);
+                double cosInverse = Math.cosh(Double.parseDouble(display.getText()));
+                display.setText(Double.toString(cosInverse));
                     break;
                 case "tanh":
-                    applyUnaryOperation(Math::tanh);
+                    double tanInverse = Math.tanh(Double.parseDouble(display.getText()));
+                    display.setText(Double.toString(tanInverse));
                     break;
                 case "π":
+                double pi = Math.PI;
                     display.setText(display.getText() + "\u03C0");
+                    display.setText(Double.toString(pi));
                     break;
                 case "Rand":
                     display.setText(display.getText() + "Rand");
@@ -169,15 +201,15 @@ public class ScientificCalculator extends JFrame {
     }
 
     // Method to apply unary operations
-    private void applyUnaryOperation(UnaryOperation operation) {
+   /*  private void applyUnaryOperation(double i) {
         try {
             double operand = Double.parseDouble(display.getText());
-            double result = operation.apply(operand);
+            double result = i.apply(operand);
             display.setText(Double.toString(result));
         } catch (NumberFormatException e) {
             display.setText("Error");
         }
-    }
+    }*/
 
     // Method to calculate factorial
     private void calculateFactorial() {
@@ -242,11 +274,11 @@ public class ScientificCalculator extends JFrame {
     // Method to set button style
     private void setButtonStyle(JButton button, String label) {
         if (label.matches("[0-9.]")) {
-            button.setBackground(Color.LIGHT_GRAY);
+            button.setBackground(Color.GRAY);
         } else if (label.equals("(") || label.equals(")")) {
-            button.setBackground(Color.DARK_GRAY);
+            button.setBackground(new Color(64,64,64));
         } else if (label.matches("[*/\\-+=]")) {
-            button.setBackground(Color.ORANGE);
+            button.setBackground(new Color(240,160,0));
         } else {
             button.setBackground(Color.DARK_GRAY);
         }
